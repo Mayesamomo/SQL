@@ -27,22 +27,28 @@ where firstname ||  lastname like '%t%'
 Get all of the rows from the artist table that contain an o with an ülaut ('ö'). In the results table, replace this character with a smiley face (':)')
 **/
 
-select *  from artist where name LIKE '%ö%'
+select artistId, replace(name,'ö',':)')  from artist where name LIKE '%ö%'
 
 
 /**
 Get all results from the customer table. Replace null values in the state and fax columns with an empty string.
 **/
 
-select *, coalesce(fax, ' ') or coalesce(state, ' ') from customer
+select fax, coalesce(fax, ' '), state, coalesce(state, ' ') from customer
 
 --Return all album title longer than 20 characters. Only display the first
  --twenty characters, and make all characters lowercase.
-select title from  album where length(title) > 20
+select lower(substr(title,1,20))
+title from  album where length(title) > 20
 
 /**
-Get all invoices from Berlin where the total is more than $5, and the invoices from Toronto where the total is more than $5. Sort from newest to oldest. Remember: if there is more than one way to write your code, you should stop and think about which way is best.
+Get all invoices from Berlin where the total is more than $5, and the invoices
+ from Toronto where the total is more than $5. Sort from newest to oldest. Remember:
+  if there is more than one way to write your code, you should stop and think about which way is best.
 **/
 select * from invoice
-where billingcity = 'Toronto' AND total > 5
-OR billingcity = 'Berlin' AND total > 5  order by InvoiceDate DESC
+where (billingcity = 'Toronto' OR billingcity = 'Berlin') AND total > 5  order by InvoiceDate DESC
+/* another way of doing it is**/
+
+select * from invoice
+where billingcity in('Toronto','Berlin') AND total > 5  order by InvoiceDate DESC
