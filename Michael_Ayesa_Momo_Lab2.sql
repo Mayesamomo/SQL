@@ -1,10 +1,10 @@
---Get all the rows in the invoice table with an invoiceId of 400 or greater, and where the billingState is listed.
+--1. Get all the rows in the invoice table with an invoiceId of 400 or greater, and where the billingState is listed.
  --Sort these rows so that the invoiceId goes from highest to lowest.
  SELECT * FROM invoice WHERE invoiceId >= 400 AND billingState NOT NULL ORDER BY invoiceId DESC
 
 
 /**
-Get 6 rows from the employee table. Sort the employees from oldest to youngest. Exclude the two oldest.
+2. Get 6 rows from the employee table. Sort the employees from oldest to youngest. Exclude the two oldest.
 
 **/
 
@@ -13,18 +13,15 @@ ORDER BY birthDate LIMIT 6 OFFSET 2
 
 
 /**
-Get a list of cities where the store has customers, without duplicates. Make all the city names lowercased.
+3. Get a list of cities where the store has customers, without duplicates. Make all the city names lowercased.
 **/
 SELECT   DISTINCT LOWER(city) from customer where customerId IS NOT NULL
 
 /**
-Get a list of all customers who have the letter 't' (either uppercase or lowercase) in either their first or last names. Include a column that lists the third letter of their last name.
+4. Get a list of all customers who have the letter 't' (either uppercase or lowercase) in either their first or last names. Include a column that lists the third letter of their last name.
 **/
-SELECT *,SUBSTR(lastName, 3, 1) 
-  AS thirdLetter 
-FROM customer 
-WHERE
-firstname LIKE '%t%' 
+select lastname, SUBSTR(lastname, 3,1) as 'third' from customer
+where firstname ||  lastname like '%t%'
 
 /**
 Get all of the rows from the artist table that contain an o with an ülaut ('ö'). In the results table, replace this character with a smiley face (':)')
